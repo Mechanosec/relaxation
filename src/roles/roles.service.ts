@@ -1,14 +1,17 @@
 import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/sequelize';
 import { CreateRoleDto } from './DTO/create-role.dto';
-import { Role } from './roles.model';
+import { Role } from './roles.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class RolesService {
-  constructor(@InjectModel(Role) private roleRepository: typeof Role) {}
+  constructor(
+    @InjectRepository(Role) private roleRepository: Repository<Role>,
+  ) {}
 
   async create(dto: CreateRoleDto) {
-    return await this.roleRepository.create(dto);
+    return this.roleRepository.create(dto);
   }
 
   async getById(id: number) {
@@ -16,6 +19,6 @@ export class RolesService {
   }
 
   async getAll() {
-    return await this.roleRepository.findAll();
+    return await this.roleRepository.find();
   }
 }
