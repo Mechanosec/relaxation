@@ -27,7 +27,9 @@ export class UsersController {
   @UseGuards(RolesGuard)
   @Get('/:uuid')
   get(@Param('uuid') uuid: string) {
-    return this.userService.getId(uuid);
+    return this.userService.getId(uuid).then((entity) => {
+      return new UserResponse().item(entity);
+    });
   }
 
   @ApiOperation({ summary: 'Получение списка' })
@@ -38,7 +40,6 @@ export class UsersController {
     return this.userService.getAll().then((entities) => {
       return new UserResponse().items(entities);
     });
-    // return datas;
   }
 
   @ApiOperation({ summary: 'Создание' })

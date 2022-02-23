@@ -9,8 +9,10 @@ export abstract class ResponseTransformer<Entity> {
 
   items(entities: Entity[]) {
     const response = [];
-    for (const entity of entities) {
-      response.push(this.toArray(entity));
+    if (entities) {
+      for (const entity of entities) {
+        response.push(this.item(entity));
+      }
     }
     return response;
   }

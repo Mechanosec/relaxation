@@ -20,6 +20,8 @@ export class UserResponse extends ResponseTransformer<User> {
   }
 
   implements(entity: User) {
-    return [{ roles: new RoleResponse().items(entity.roles) }];
+    return {
+      roles: new RoleResponse().items(entity?.roles),
+    };
   }
 }
