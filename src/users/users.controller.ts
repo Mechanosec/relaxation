@@ -15,6 +15,7 @@ import { JwtAuthGuard } from '../guards/jwt-auth.guard';
 import { Roles } from '../guards/roles-auth.decorator';
 import { RolesGuard } from '../guards/roles.guard';
 import { ValidationPipe } from '../pipes/validation.pipe';
+import { UserResponse } from './responseTransformer/user.response';
 
 @ApiTags('Пользователи')
 @Controller('users')
@@ -35,10 +36,7 @@ export class UsersController {
   @Get()
   async getAll() {
     return this.userService.getAll().then((entities) => {
-      for (const entity of entities) {
-        console.log(entity);
-      }
-      return entities;
+      return new UserResponse().items(entities);
     });
     // return datas;
   }

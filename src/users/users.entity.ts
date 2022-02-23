@@ -12,7 +12,7 @@ import {
 export class User {
   @ApiProperty({ description: 'Идентификатор', example: '1' })
   @PrimaryGeneratedColumn('uuid')
-  uuid: number;
+  uuid: string;
 
   @ApiProperty({ description: 'E-mail', example: 'test@test.com' })
   @Column({ type: 'varchar', width: 100, unique: true, nullable: false })
