@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './DTO/create-user.dto';
 import { User } from './users.entity';
 import { RolesService } from '../roles/roles.service';
@@ -15,6 +15,9 @@ export class UsersService {
 
   async createUser(dto: CreateUserDto): Promise<User> {
     const role = await this.roleService.getById(USER);
+    if (!role) {
+      throw new HttpException('Role is not exist', HttpStatus.BAD_REQUEST);
+    }
     const user = await this.userRepository.create(dto);
     user.roles = [role];
     return await this.userRepository.save(user);

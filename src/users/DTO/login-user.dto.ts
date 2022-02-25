@@ -6,8 +6,8 @@ export class LoginUserDto {
   @IsEmail()
   readonly email: string;
 
-  @ApiProperty({ description: 'Пароль', example: '12345' })
+  @ApiProperty({ description: 'Password', example: '12345' })
   @IsString()
-  @Length(3, 10)
+  @Length(8, 50)
   readonly password: string;
 }

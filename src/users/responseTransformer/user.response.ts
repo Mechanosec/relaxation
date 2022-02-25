@@ -7,6 +7,8 @@ interface IUserResponse {
   email: string;
   firstName: string;
   secondName: string;
+  createdAt;
+  updatedAt;
 }
 
 export class UserResponse extends ResponseTransformer<User> {
@@ -16,10 +18,12 @@ export class UserResponse extends ResponseTransformer<User> {
       email: entity.email,
       firstName: entity.firstName,
       secondName: entity.secondName,
+      createdAt: entity.createdAt,
+      updatedAt: entity.updatedAt,
     };
   }
 
-  implements(entity: User) {
+  implements(entity: User): any {
     return {
       roles: new RoleResponse().items(entity?.roles),
     };

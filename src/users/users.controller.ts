@@ -26,10 +26,8 @@ export class UsersController {
   @Roles('user')
   @UseGuards(RolesGuard)
   @Get('/:uuid')
-  get(@Param('uuid') uuid: string) {
-    return this.userService.getId(uuid).then((entity) => {
-      return new UserResponse().item(entity);
-    });
+  async get(@Param('uuid') uuid: string) {
+    return new UserResponse().item(await this.userService.getId(uuid));
   }
 
   @ApiOperation({ summary: 'Получение списка' })
@@ -37,9 +35,7 @@ export class UsersController {
   @UseGuards(JwtAuthGuard)
   @Get()
   async getAll() {
-    return this.userService.getAll().then((entities) => {
-      return new UserResponse().items(entities);
-    });
+    return new UserResponse().items(await this.userService.getAll());
   }
 
   @ApiOperation({ summary: 'Создание' })
@@ -48,7 +44,9 @@ export class UsersController {
   @UseGuards(RolesGuard)
   @UsePipes(ValidationPipe)
   @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.userService.createUser(createUserDto);
+  async create(@Body() createUserDto: CreateUserDto) {
+    return new UserResponse().item(
+      await this.userService.createUser(createUserDto),
+    );
   }
 }

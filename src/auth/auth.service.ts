@@ -18,12 +18,12 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async login(loginUserDto: LoginUserDto) {
+  async login(loginUserDto: LoginUserDto): Promise<string> {
     const user = await this.validate(loginUserDto);
     return this.generateToken(user);
   }
 
-  async singUp(createUserDto: CreateUserDto) {
+  async singUp(createUserDto: CreateUserDto): Promise<string> {
     if (await this.userService.getByEmail(createUserDto.email)) {
       throw new HttpException('User is already exist', HttpStatus.BAD_REQUEST);
     }
@@ -32,7 +32,7 @@ export class AuthService {
     return this.generateToken(newUser);
   }
 
-  private async generateToken(user: User): Promise<string> {
+  private generateToken(user: User): string {
     const payload = { email: user.email, roles: user.roles };
     return this.jwtService.sign(payload);
   }

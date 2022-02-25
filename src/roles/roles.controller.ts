@@ -3,6 +3,7 @@ import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateRoleDto } from './DTO/create-role.dto';
 import { Role } from './roles.entity';
 import { RolesService } from './roles.service';
+import { RoleResponse } from './responseTransformer/role.response';
 
 @ApiTags('Роли')
 @Controller('roles')
@@ -13,7 +14,9 @@ export class RolesController {
   @ApiResponse({ status: 200, type: [Role] })
   @Get()
   getAll() {
-    return this.roleService.getAll();
+    return this.roleService.getAll().then((entities) => {
+      return new RoleResponse().items(entities);
+    });
   }
 
   @ApiOperation({ summary: 'Создание' })

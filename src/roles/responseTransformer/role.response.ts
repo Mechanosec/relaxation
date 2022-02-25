@@ -14,5 +14,7 @@ export class RoleResponse extends ResponseTransformer<Role> {
     };
   }
 
-  protected implements(entity: Role): any {}
+  protected implements(entity: Role): any {
+    return {};
+  }
 }

@@ -2,7 +2,7 @@ import { forwardRef, Module } from '@nestjs/common';
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
 import { RolesModule } from '../roles/roles.module';
-import { AuthEntity } from '../auth/auth.entity';
+import { AuthModule } from '../auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './users.entity';
 
@@ -12,7 +12,7 @@ import { User } from './users.entity';
   imports: [
     TypeOrmModule.forFeature([User]),
     RolesModule,
-    forwardRef(() => AuthEntity),
+    forwardRef(() => AuthModule),
   ],
   exports: [UsersService],
 })

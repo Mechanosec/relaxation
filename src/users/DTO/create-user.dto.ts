@@ -6,16 +6,16 @@ export class CreateUserDto {
   @IsEmail()
   readonly email: string;
 
-  @ApiProperty({ description: 'Пароль', example: '12345' })
+  @ApiProperty({ description: 'Password', example: '12345' })
   @IsString()
-  @Length(4, 10)
+  @Length(8, 50)
   password: string;
 
-  @ApiProperty({ description: 'Имя', example: 'Иван' })
+  @ApiProperty({ description: 'First name', example: 'Ivan' })
   @IsString()
   readonly firstName: string;
 
-  @ApiProperty({ description: 'Фамилия', example: 'Иванович' })
+  @ApiProperty({ description: 'Second Name', example: 'Jovanovich' })
   @IsString()
   readonly secondName: string;
 }

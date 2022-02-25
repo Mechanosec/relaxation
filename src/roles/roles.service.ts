@@ -10,15 +10,16 @@ export class RolesService {
     @InjectRepository(Role) private roleRepository: Repository<Role>,
   ) {}
 
-  async create(dto: CreateRoleDto) {
-    return this.roleRepository.create(dto);
+  async create(dto: CreateRoleDto): Promise<Role> {
+    const role = this.roleRepository.create(dto);
+    return this.roleRepository.save(role);
   }
 
-  async getById(id: number) {
+  async getById(id: number): Promise<Role> {
     return await this.roleRepository.findOne({ where: { id } });
   }
 
-  async getAll() {
+  async getAll(): Promise<Role[]> {
     return await this.roleRepository.find();
   }
 }

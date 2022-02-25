@@ -4,8 +4,8 @@ import { User } from './users/users.entity';
 import { UsersModule } from './users/users.module';
 import { RolesModule } from './roles/roles.module';
 import { Role } from './roles/roles.entity';
-import { AuthEntity } from './auth/auth.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -25,7 +25,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     }),
     UsersModule,
     RolesModule,
-    AuthEntity,
+    AuthModule,
   ],
   controllers: [],
   providers: [],
