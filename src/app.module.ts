@@ -10,17 +10,7 @@ import { AuthModule } from './auth/auth.module';
     ConfigModule.forRoot({
       envFilePath: '.env',
     }),
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: process.env.POSTGRES_HOST,
-      port: Number(process.env.POSTGRES_PORT),
-      username: process.env.POSTGRES_USER,
-      password: String(process.env.POSTGRES_PASSWORD),
-      database: process.env.POSTGRES_DB,
-      entities: [process.env.TYPEORM_ENTITIES],
-      synchronize: true,
-      autoLoadEntities: true,
-    }),
+    TypeOrmModule.forRoot(),
     UsersModule,
     RolesModule,
     AuthModule,
