@@ -7,8 +7,8 @@ interface IUserResponse {
   email: string;
   firstName: string;
   secondName: string;
-  createdAt;
-  updatedAt;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export class UserResponse extends ResponseTransformer<User> {

@@ -2,7 +2,7 @@ import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
-  Entity, ManyToMany,
+  Entity, JoinTable, ManyToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from 'typeorm';
@@ -39,6 +39,10 @@ export class Group {
   deletedAt;
 
   @ManyToMany(() => User)
-  @JoinTable
+  @JoinTable({
+    name: 'users_groups',
+    joinColumn: { name: 'group_guid', referencedColumnName: 'guid' },
+    inverseJoinColumn: { name: 'user_guid', referencedColumnName: 'guid' },
+  })
   users: User[];
 }

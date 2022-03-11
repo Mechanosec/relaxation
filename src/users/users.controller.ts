@@ -17,36 +17,40 @@ import { RolesGuard } from '../guards/roles.guard';
 import { ValidationPipe } from '../pipes/validation.pipe';
 import { UserResponse } from './responseTransformer/user.response';
 
-@ApiTags('Пользователи')
+@ApiTags('Users')
+@UseGuards(JwtAuthGuard)
+@UsePipes(ValidationPipe)
 @Controller('users')
 export class UsersController {
   constructor(private userService: UsersService) {}
 
-  @ApiOperation({ summary: 'Получение одного' })
-  @Roles('user')
-  @UseGuards(RolesGuard)
+  @ApiOperation({ summary: 'Get one' })
+  @ApiResponse({ status: 200, type: User })
   @Get('/:guid')
   async get(@Param('guid') guid: string) {
-    return new UserResponse().item(await this.userService.getId(guid));
+    return new UserResponse().item(await this.userService.getGuid(guid));
   }
 
-  @ApiOperation({ summary: 'Получение списка' })
+  @ApiOperation({ summary: 'Get list' })
   @ApiResponse({ status: 200, type: [User] })
-  @UseGuards(JwtAuthGuard)
   @Get()
   async getAll() {
     return new UserResponse().items(await this.userService.getAll());
   }
 
-  @ApiOperation({ summary: 'Создание' })
+  @ApiOperation({ summary: 'Create' })
   @ApiResponse({ status: 200, type: User })
-  @Roles('admin')
-  @UseGuards(RolesGuard)
-  @UsePipes(ValidationPipe)
+  // @Roles('admin')
+  // @UseGuards(RolesGuard)
   @Post()
   async create(@Body() createUserDto: CreateUserDto) {
-    return new UserResponse().item(
-      await this.userService.createUser(createUserDto),
-    );
+    return this.userService
+      .createUser(createUserDto)
+      .then((user) => {
+        return new UserResponse().item(user);
+      })
+      .catch((error) => {
+        return error;
+      });
   }
 }

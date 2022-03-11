@@ -4,7 +4,7 @@ import { User } from './users.entity';
 import { RolesService } from '../roles/roles.service';
 import { USER } from '../roles/roles.constants';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 
 @Injectable()
 export class UsersService {
@@ -23,7 +23,7 @@ export class UsersService {
     return await this.userRepository.save(user);
   }
 
-  async getId(guid: string): Promise<User> {
+  async getGuid(guid: string): Promise<User> {
     return await this.userRepository.findOne({ where: { guid } });
   }
 
@@ -35,5 +35,9 @@ export class UsersService {
     return await this.userRepository.findOne({
       where: { email },
     });
+  }
+
+  async getByGuids(guids: string[]) {
+    return await this.userRepository.find({ where: { guid: In(guids) } });
   }
 }

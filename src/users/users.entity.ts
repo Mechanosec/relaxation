@@ -45,11 +45,10 @@ export class User {
   @ApiProperty({ description: 'Birthday', example: '2021-09-09' })
   @Column({
     name: 'birthday',
-    type: 'timestamp',
-    length: 0,
+    type: 'date',
     nullable: false,
   })
-  birthday: string;
+  birthday: Date;
 
   @ApiProperty({ description: 'Created at', example: 'some date' })
   @CreateDateColumn({ name: 'created_at' })
