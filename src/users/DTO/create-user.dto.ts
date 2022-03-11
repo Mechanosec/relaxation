@@ -18,4 +18,8 @@ export class CreateUserDto {
   @ApiProperty({ description: 'Second Name', example: 'Jovanovich' })
   @IsString()
   readonly secondName: string;
+
+  @ApiProperty({ description: 'Birthday', example: '2021-09-09' })
+  @IsString()
+  readonly birthday: string;
 }

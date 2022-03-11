@@ -23,8 +23,8 @@ export class UsersService {
     return await this.userRepository.save(user);
   }
 
-  async getId(uuid: string): Promise<User> {
-    return await this.userRepository.findOne({ where: { uuid } });
+  async getId(guid: string): Promise<User> {
+    return await this.userRepository.findOne({ where: { guid } });
   }
 
   async getAll(): Promise<User[]> {

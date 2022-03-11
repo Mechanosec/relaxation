@@ -3,7 +3,7 @@ import { User } from '../users.entity';
 import { RoleResponse } from '../../roles/responseTransformer/role.response';
 
 interface IUserResponse {
-  uuid: string;
+  guid: string;
   email: string;
   firstName: string;
   secondName: string;
@@ -14,7 +14,7 @@ interface IUserResponse {
 export class UserResponse extends ResponseTransformer<User> {
   toArray(entity: User): IUserResponse {
     return {
-      uuid: entity.uuid,
+      guid: entity.guid,
       email: entity.email,
       firstName: entity.firstName,
       secondName: entity.secondName,

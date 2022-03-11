@@ -25,9 +25,9 @@ export class UsersController {
   @ApiOperation({ summary: 'Получение одного' })
   @Roles('user')
   @UseGuards(RolesGuard)
-  @Get('/:uuid')
-  async get(@Param('uuid') uuid: string) {
-    return new UserResponse().item(await this.userService.getId(uuid));
+  @Get('/:guid')
+  async get(@Param('guid') guid: string) {
+    return new UserResponse().item(await this.userService.getId(guid));
   }
 
   @ApiOperation({ summary: 'Получение списка' })

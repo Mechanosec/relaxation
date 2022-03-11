@@ -10,15 +10,16 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { Group } from '../groups/groups.entity';
 
 @Entity('users')
 export class User {
   @ApiProperty({
-    description: 'uuid',
+    description: 'guid',
     example: '7703ea42-610a-4507-9036-6540d59cd73a',
   })
   @PrimaryGeneratedColumn('uuid')
-  uuid: string;
+  guid: string;
 
   @ApiProperty({ description: 'E-mail', example: 'test@test.com' })
   @Column({ type: 'varchar', length: 150, unique: true, nullable: false })
@@ -41,6 +42,15 @@ export class User {
   })
   secondName: string;
 
+  @ApiProperty({ description: 'Birthday', example: '2021-09-09' })
+  @Column({
+    name: 'birthday',
+    type: 'timestamp',
+    length: 0,
+    nullable: false,
+  })
+  birthday: string;
+
   @ApiProperty({ description: 'Created at', example: 'some date' })
   @CreateDateColumn({ name: 'created_at' })
   createdAt;
@@ -56,8 +66,16 @@ export class User {
   @ManyToMany(() => Role)
   @JoinTable({
     name: 'users_roles',
-    joinColumn: { name: 'user_uuid', referencedColumnName: 'uuid' },
+    joinColumn: { name: 'user_guid', referencedColumnName: 'guid' },
     inverseJoinColumn: { name: 'role_id', referencedColumnName: 'id' },
   })
   roles: Role[];
+
+  @ManyToMany(() => Group)
+  @JoinTable({
+    name: 'users_groups',
+    joinColumn: { name: 'user_guid', referencedColumnName: 'guid' },
+    inverseJoinColumn: { name: 'group_guid', referencedColumnName: 'guid' },
+  })
+  groups: Group[];
 }
