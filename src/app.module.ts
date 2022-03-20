@@ -5,6 +5,7 @@ import { RolesModule } from './roles/roles.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { GroupsModule } from './groups/groups.module';
+import { CategoriesModule } from './categories/categories.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { GroupsModule } from './groups/groups.module';
     RolesModule,
     AuthModule,
     GroupsModule,
+    CategoriesModule,
   ],
   controllers: [],
   providers: [],

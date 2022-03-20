@@ -1,43 +1,44 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './DTO/create-user.dto';
 import { User } from './users.entity';
-import { RolesService } from '../roles/roles.service';
 import { USER } from '../roles/roles.constants';
-import { InjectRepository } from '@nestjs/typeorm';
-import { In, Repository } from 'typeorm';
+import { UsersRepository } from './users.repository';
+import { RolesRepository } from '../roles/roles.repository';
+import { EntityManager, Transaction, TransactionManager } from 'typeorm';
+import * as bcrypt from 'bcryptjs';
+import { UpdateUserDto } from './DTO/update-user.dto';
 
 @Injectable()
 export class UsersService {
   constructor(
-    @InjectRepository(User) private userRepository: Repository<User>,
-    private roleService: RolesService,
+    private userRepository: UsersRepository,
+    private roleRepository: RolesRepository,
   ) {}
 
-  async createUser(dto: CreateUserDto): Promise<User> {
-    const role = await this.roleService.getById(USER);
-    if (!role) {
-      throw new HttpException('Role is not exist', HttpStatus.BAD_REQUEST);
-    }
-    const user = await this.userRepository.create(dto);
+  @Transaction()
+  async create(
+    dto: CreateUserDto,
+    @TransactionManager() unitOfWork: EntityManager = null,
+  ): Promise<User> {
+    console.log(dto);
+    const role = await this.roleRepository.findById(USER);
+    const user = unitOfWork.create(User, dto);
+    // user.password = await bcrypt.hash(createUserDto.password, 5);
     user.roles = [role];
-    return await this.userRepository.save(user);
+    return await unitOfWork.save(user);
   }
 
-  async getGuid(guid: string): Promise<User> {
-    return await this.userRepository.findOne({ where: { guid } });
-  }
-
-  async getAll(): Promise<User[]> {
-    return await this.userRepository.find({ relations: ['roles'] });
-  }
-
-  async getByEmail(email: string): Promise<User> {
-    return await this.userRepository.findOne({
-      where: { email },
-    });
-  }
-
-  async getByGuids(guids: string[]) {
-    return await this.userRepository.find({ where: { guid: In(guids) } });
+  @Transaction()
+  async update(
+    guid: string,
+    updateUserDto: UpdateUserDto,
+    @TransactionManager() unitOfWork: EntityManager = null,
+  ): Promise<User> {
+    const user = await this.userRepository.findByGuid(guid);
+    user.email = updateUserDto.email;
+    user.firstName = updateUserDto.firstName;
+    user.secondName = updateUserDto.secondName;
+    user.birthday = updateUserDto.birthday;
+    return await unitOfWork.save(user);
   }
 }

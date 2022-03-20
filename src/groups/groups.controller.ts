@@ -6,19 +6,23 @@ import { Group } from './groups.entity';
 import { AddToGroupDto } from './DTO/add-to-group.dto';
 import { JwtAuthGuard } from '../guards/jwt-auth.guard';
 import { GroupResponse } from './responseTransformer/group.response';
+import { GroupsRepository } from './groups.repository';
 
 @ApiTags('Groups')
 @UseGuards(JwtAuthGuard)
 @Controller('groups')
 export class GroupsController {
-  constructor(private groupService: GroupsService) {}
+  constructor(
+    private groupService: GroupsService,
+    private groupRepository: GroupsRepository,
+  ) {}
 
   @ApiOperation({ summary: 'Get group' })
   @ApiResponse({ status: 200, type: [Group] })
   @Get('/:guid')
   async get(@Param('guid') guid: string) {
-    return this.groupService
-      .getByGuid(guid)
+    return this.groupRepository
+      .findByGuid(guid)
       .then((group) => {
         return new GroupResponse().item(group);
       })
@@ -31,8 +35,8 @@ export class GroupsController {
   @ApiResponse({ status: 200, type: [Group] })
   @Get()
   async getAll() {
-    return this.groupService
-      .getAll()
+    return this.groupRepository
+      .findList()
       .then((groups) => {
         return new GroupResponse().items(groups);
       })

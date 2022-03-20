@@ -4,17 +4,21 @@ import { CreateRoleDto } from './DTO/create-role.dto';
 import { Role } from './roles.entity';
 import { RolesService } from './roles.service';
 import { RoleResponse } from './responseTransformer/role.response';
+import { RolesRepository } from './roles.repository';
 
-@ApiTags('Роли')
+@ApiTags('Roles')
 @Controller('roles')
 export class RolesController {
-  constructor(private roleService: RolesService) {}
+  constructor(
+    private roleService: RolesService,
+    private roleRepository: RolesRepository,
+  ) {}
 
   @ApiOperation({ summary: 'Получение списка' })
   @ApiResponse({ status: 200, type: [Role] })
   @Get()
   getAll() {
-    return this.roleService.getAll().then((entities) => {
+    return this.roleRepository.findList().then((entities) => {
       return new RoleResponse().items(entities);
     });
   }

@@ -8,13 +8,15 @@ import { CreateUserDto } from '../users/DTO/create-user.dto';
 import { LoginUserDto } from '../users/DTO/login-user.dto';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
-import * as bcrypt from 'bcryptjs';
 import { User } from '../users/users.entity';
+import { UsersRepository } from '../users/users.repository';
+import * as bcrypt from 'bcryptjs';
 
 @Injectable()
 export class AuthService {
   constructor(
     private userService: UsersService,
+    private userRepository: UsersRepository,
     private jwtService: JwtService,
   ) {}
 
@@ -24,11 +26,17 @@ export class AuthService {
   }
 
   async singUp(createUserDto: CreateUserDto): Promise<string> {
-    if (await this.userService.getByEmail(createUserDto.email)) {
+    let user;
+    try {
+      user = await this.userRepository.findByEmail(createUserDto.email);
+    } catch (e) {
+      user = null;
+    }
+
+    if (user) {
       throw new HttpException('User is already exist', HttpStatus.BAD_REQUEST);
     }
-    createUserDto.password = await bcrypt.hash(createUserDto.password, 5);
-    const newUser = await this.userService.createUser(createUserDto);
+    const newUser = await this.userService.create(createUserDto);
     return this.generateToken(newUser);
   }
 
@@ -41,7 +49,7 @@ export class AuthService {
     const error = new UnauthorizedException({
       message: 'Incorrect email and password',
     });
-    const user = await this.userService.getByEmail(loginUserDto.email);
+    const user = await this.userRepository.findByEmail(loginUserDto.email);
     if (!user) {
       throw error;
     }
