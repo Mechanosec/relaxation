@@ -2,7 +2,6 @@ import { Repository } from 'typeorm';
 import { Group } from './groups.entity';
 import { Injectable, Scope } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CreateGroupDto } from './DTO/create-group.dto';
 import { BaseRepository } from '../extensions/base.repository';
 
 @Injectable({ scope: Scope.REQUEST })
@@ -10,11 +9,6 @@ export class GroupsRepository extends BaseRepository{
 
   constructor(@InjectRepository(Group) private repository: Repository<Group>) {
     super();
-  }
-
-  async save(dto: CreateGroupDto) {
-    const group = await this.repository.create(dto);
-    return await this.repository.save(group);
   }
 
   async findByGuid(guid: string): Promise<Group> {

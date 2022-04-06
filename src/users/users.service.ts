@@ -18,26 +18,26 @@ export class UsersService {
   @Transaction()
   async create(
     createUserDto: CreateUserDto,
-    @TransactionManager() unitOfWork: EntityManager = null,
+    @TransactionManager() entityManager: EntityManager = null,
   ): Promise<User> {
     const role = await this.roleRepository.findById(USER);
-    const user = unitOfWork.create(User, createUserDto);
+    const user = entityManager.create(User, createUserDto);
     user.password = await bcrypt.hash(createUserDto.password, 5);
     user.roles = [role];
-    return await unitOfWork.save(user);
+    return await entityManager.save(user);
   }
 
   @Transaction()
   async update(
     guid: string,
     updateUserDto: UpdateUserDto,
-    @TransactionManager() unitOfWork: EntityManager = null,
+    @TransactionManager() entityManager: EntityManager = null,
   ): Promise<User> {
     const user = await this.userRepository.findByGuid(guid);
     user.email = updateUserDto.email;
     user.firstName = updateUserDto.firstName;
     user.secondName = updateUserDto.secondName;
     user.birthday = updateUserDto.birthday;
-    return await unitOfWork.save(user);
+    return await entityManager.save(user);
   }
 }
