@@ -17,13 +17,12 @@ export class UsersService {
 
   @Transaction()
   async create(
-    dto: CreateUserDto,
+    createUserDto: CreateUserDto,
     @TransactionManager() unitOfWork: EntityManager = null,
   ): Promise<User> {
-    console.log(dto);
     const role = await this.roleRepository.findById(USER);
-    const user = unitOfWork.create(User, dto);
-    // user.password = await bcrypt.hash(createUserDto.password, 5);
+    const user = unitOfWork.create(User, createUserDto);
+    user.password = await bcrypt.hash(createUserDto.password, 5);
     user.roles = [role];
     return await unitOfWork.save(user);
   }

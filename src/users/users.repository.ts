@@ -2,8 +2,6 @@ import { HttpException, HttpStatus, Injectable, Scope } from '@nestjs/common';
 import { User } from './users.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { In, Repository } from 'typeorm';
-import { CreateUserDto } from './DTO/create-user.dto';
-import { Role } from '../roles/roles.entity';
 import { BaseRepository } from '../extensions/base.repository';
 
 @Injectable({ scope: Scope.REQUEST })
