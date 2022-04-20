@@ -1,7 +1,7 @@
-import { IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { IsString } from 'class-validator';
 
-export class CreateGroupDto {
+export class UpdateGroupDto {
   @ApiProperty({ description: 'Title', example: 'My group' })
   @IsString()
   readonly title: string;

@@ -40,4 +40,14 @@ export class UsersService {
     user.birthday = updateUserDto.birthday;
     return await entityManager.save(user);
   }
+
+  @Transaction()
+  async delete(
+    guid: string,
+    @TransactionManager() entityManager: EntityManager = null,
+  ) {
+    const user = await this.userRepository.findByGuid(guid);
+    user.deletedAt = new Date().toISOString();
+    await entityManager.save(user);
+  }
 }

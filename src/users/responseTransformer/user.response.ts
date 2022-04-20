@@ -1,17 +1,9 @@
 import { ResponseTransformer } from '../../extensions/response.transformer';
 import { User } from '../users.entity';
-import { RoleResponse } from '../../roles/responseTransformer/role.response';
+import RoleResponse from '../../roles/responseTransformer/role.response';
+import IUserResponse from './iuser.response';
 
-interface IUserResponse {
-  guid: string;
-  email: string;
-  firstName: string;
-  secondName: string;
-  createdAt: Date;
-  updatedAt: Date;
-}
-
-export class UserResponse extends ResponseTransformer<User> {
+export default class UserResponse extends ResponseTransformer<User> {
   toArray(entity: User): IUserResponse {
     return {
       guid: entity.guid,

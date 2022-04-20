@@ -19,4 +19,8 @@ export class CategoriesRepository extends BaseRepository {
   async findByIds(ids: number[]): Promise<Category[]> {
     return await this.repository.find({ where: { id: In(ids) } });
   }
+
+  async findList(): Promise<Category[]> {
+    return await this.repository.find();
+  }
 }

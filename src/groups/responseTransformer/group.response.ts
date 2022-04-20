@@ -1,16 +1,9 @@
 import { ResponseTransformer } from '../../extensions/response.transformer';
 import { Group } from '../groups.entity';
-import { UserResponse } from '../../users/responseTransformer/user.response';
+import UserResponse from '../../users/responseTransformer/user.response';
+import IGroupResponse from './igroup.response';
 
-interface IGroupResponse {
-  guid: string;
-  title: string;
-  description: string;
-  createdAt: Date;
-  updatedAt: Date;
-}
-
-export class GroupResponse extends ResponseTransformer<Group> {
+export default class GroupResponse extends ResponseTransformer<Group> {
   protected toArray(entity: Group): IGroupResponse {
     return {
       guid: entity.guid,

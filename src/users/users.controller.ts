@@ -1,10 +1,19 @@
-import { Body, Controller, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+  UseGuards,
+} from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateUserDto } from './DTO/create-user.dto';
 import { User } from './users.entity';
 import { UsersService } from './users.service';
 import { JwtAuthGuard } from '../guards/jwt-auth.guard';
-import { UserResponse } from './responseTransformer/user.response';
+import UserResponse from './responseTransformer/user.response';
 import { UsersRepository } from './users.repository';
 import { UpdateUserDto } from './DTO/update-user.dto';
 
@@ -36,7 +45,7 @@ export class UsersController {
   @ApiResponse({ status: 200, type: [User] })
   @Get()
   getAll() {
-    this.userRepository
+    return this.userRepository
       .findList()
       .then((users) => {
         return new UserResponse().items(users);
@@ -68,6 +77,20 @@ export class UsersController {
       .update(guid, updateUserDto)
       .then((user) => {
         return new UserResponse().item(user);
+      })
+      .catch((error) => {
+        return error;
+      });
+  }
+
+  @ApiOperation({ summary: 'Update' })
+  @ApiResponse({ status: 200, type: User })
+  @Delete('/:guid')
+  delete(@Param('guid') guid: string) {
+    return this.userService
+      .delete(guid)
+      .then(() => {
+        return 'User was update';
       })
       .catch((error) => {
         return error;

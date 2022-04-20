@@ -1,12 +1,8 @@
 import { ResponseTransformer } from '../../extensions/response.transformer';
 import { Role } from '../roles.entity';
+import IRoleResponse from './irole.response';
 
-interface IRoleResponse {
-  id: number;
-  role: string;
-}
-
-export class RoleResponse extends ResponseTransformer<Role> {
+export default class RoleResponse extends ResponseTransformer<Role> {
   protected toArray(entity: Role): IRoleResponse {
     return {
       id: entity.id,

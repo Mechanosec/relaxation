@@ -3,7 +3,7 @@ import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateRoleDto } from './DTO/create-role.dto';
 import { Role } from './roles.entity';
 import { RolesService } from './roles.service';
-import { RoleResponse } from './responseTransformer/role.response';
+import RoleResponse from './responseTransformer/role.response';
 import { RolesRepository } from './roles.repository';
 
 @ApiTags('Roles')
