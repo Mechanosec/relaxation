@@ -31,7 +31,10 @@ export class CategoriesService {
   }
 
   @Transaction()
-  async delete(id: number, @TransactionManager() entityManager: EntityManager = null) {
+  async delete(
+    id: number,
+    @TransactionManager() entityManager: EntityManager = null,
+  ) {
     const category = await this.categoryRepository.findById(id);
     category.deletedAt = new Date().toISOString();
     await entityManager.save(category);
