@@ -17,7 +17,7 @@ import { GroupsRepository } from './groups.repository';
 import { UsersToGroupDto } from './DTO/users-to-group.dto';
 
 @ApiTags('Groups')
-// @UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard)
 @Controller('groups')
 export class GroupsController {
   constructor(
