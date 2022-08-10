@@ -20,6 +20,7 @@ export class UsersService {
     createUserDto: CreateUserDto,
     @TransactionManager() entityManager: EntityManager = null,
   ): Promise<User> {
+    console.log(123);
     const role = await this.roleRepository.findById(USER);
     const user = entityManager.create(User, createUserDto);
     user.password = await bcrypt.hash(createUserDto.password, 5);
