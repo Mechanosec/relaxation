@@ -13,7 +13,7 @@ export class UsersService {
   constructor(
     private userRepository: UsersRepository,
     private roleRepository: RolesRepository,
-  ) {}
+  ) { }
 
   @Transaction()
   async create(
