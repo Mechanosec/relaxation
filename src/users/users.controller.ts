@@ -24,76 +24,70 @@ export class UsersController {
   constructor(
     private userService: UsersService,
     private userRepository: UsersRepository,
-  ) { }
+  ) {}
 
   @ApiOperation({ summary: 'Get one' })
   @ApiResponse({ status: 200, type: User })
   @Get('/:guid')
   async get(@Param('guid') guid: string) {
-    return this.userRepository
-      .setRelations(['roles'])
-      .findByGuid(guid)
-      .then((user) => {
-        return new UserResponse().item(user);
-      })
-      .catch((error) => {
-        return error;
-      });
+    try {
+      const user = await this.userRepository
+        .setRelations(['roles'])
+        .findByGuid(guid);
+      return new UserResponse().item(user);
+    } catch (error) {
+      return error;
+    }
   }
 
   @ApiOperation({ summary: 'Get list' })
   @ApiResponse({ status: 200, type: [User] })
   @Get()
   async getAll() {
-    return this.userRepository
-      .findList()
-      .then((users) => {
-        return new UserResponse().items(users);
-      })
-      .catch((error) => {
-        return error;
-      });
+    try {
+      const users = await this.userRepository.findList();
+      return new UserResponse().items(users);
+    } catch (error) {
+      return error;
+    }
   }
 
   @ApiOperation({ summary: 'Create' })
   @ApiResponse({ status: 200, type: User })
   @Post()
   async create(@Body() createUserDto: CreateUserDto) {
-    return this.userService
-      .create(createUserDto)
-      .then((user) => {
-        return new UserResponse().item(user);
-      })
-      .catch((error) => {
-        return error;
-      });
+    try {
+      const user = await this.userService.create(createUserDto);
+      return new UserResponse().item(user);
+    } catch (error) {
+      return error;
+    }
   }
 
   @ApiOperation({ summary: 'Update' })
   @ApiResponse({ status: 200, type: User })
   @Put('/:guid')
-  async update(@Param('guid') guid: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService
-      .update(guid, updateUserDto)
-      .then((user) => {
-        return new UserResponse().item(user);
-      })
-      .catch((error) => {
-        return error;
-      });
+  async update(
+    @Param('guid') guid: string,
+    @Body() updateUserDto: UpdateUserDto,
+  ) {
+    try {
+      const user = await this.userService.update(guid, updateUserDto);
+      return new UserResponse().item(user);
+    } catch (error) {
+      return error;
+    }
   }
 
   @ApiOperation({ summary: 'Update' })
   @ApiResponse({ status: 200, type: User })
   @Delete('/:guid')
   async delete(@Param('guid') guid: string) {
-    return this.userService
-      .delete(guid)
-      .then(() => {
-        return 'User was update';
-      })
-      .catch((error) => {
-        return error;
-      });
+    try {
+      await this.userService.delete(guid);
+      return 'User was update';
+    } catch (error) {
+      return error;
+    }
   }
 }
