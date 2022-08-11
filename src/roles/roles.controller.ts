@@ -17,10 +17,13 @@ export class RolesController {
   @ApiOperation({ summary: 'Получение списка' })
   @ApiResponse({ status: 200, type: [Role] })
   @Get()
-  getAll() {
-    return this.roleRepository.findList().then((entities) => {
-      return new RoleResponse().items(entities);
-    });
+  async getAll() {
+    try {
+      const roles = await this.roleRepository.findList();
+      return new RoleResponse().items(roles);
+    } catch (err) {
+      return err;
+    }
   }
 
   @ApiOperation({ summary: 'Создание' })
