@@ -30,14 +30,17 @@ export class UsersController {
   @ApiResponse({ status: 200, type: User })
   @Get('/:guid')
   async get(@Param('guid') guid: string) {
-    try {
-      const user = await this.userRepository
-        .setRelations(['roles'])
-        .findByGuid(guid);
-      return new UserResponse().item(user);
-    } catch (error) {
-      return error;
-    }
+    let a = guid;
+    a = a + 'sometext';
+    return a;
+    // try {
+    //   const user = await this.userRepository
+    //     .setRelations(['roles'])
+    //     .findByGuid(guid);
+    //   return new UserResponse().item(user);
+    // } catch (error) {
+    //   return error;
+    // }
   }
 
   @ApiOperation({ summary: 'Get list' })
