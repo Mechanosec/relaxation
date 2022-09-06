@@ -8,18 +8,18 @@ import { GroupsModule } from './groups/groups.module';
 import { CategoriesModule } from './categories/categories.module';
 
 @Module({
-  imports: [
-    ConfigModule.forRoot({
-      envFilePath: '.env',
-    }),
-    TypeOrmModule.forRoot(),
-    UsersModule,
-    RolesModule,
-    AuthModule,
-    GroupsModule,
-    CategoriesModule,
-  ],
-  controllers: [],
-  providers: [],
+    imports: [
+        ConfigModule.forRoot({
+            envFilePath: '.env',
+        }),
+        TypeOrmModule.forRoot(),
+        UsersModule,
+        RolesModule,
+        AuthModule,
+        GroupsModule,
+        CategoriesModule,
+    ],
+    controllers: [],
+    providers: [],
 })
 export class AppModule {}

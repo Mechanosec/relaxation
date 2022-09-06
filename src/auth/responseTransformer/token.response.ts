@@ -1,17 +1,7 @@
-import { ResponseTransformer } from '../../extensions/response.transformer';
+export default class TokenResponse {
+    token: string;
 
-interface ITokenResponse {
-  token: string;
-}
-
-export class TokenResponse extends ResponseTransformer<any> {
-  protected implements(entity: any): any {
-    return {};
-  }
-
-  protected toArray(token: string): ITokenResponse {
-    return {
-      token: token,
-    };
-  }
+    constructor(token: string) {
+        this.token = token;
+    }
 }

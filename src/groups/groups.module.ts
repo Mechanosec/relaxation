@@ -8,9 +8,9 @@ import { GroupsRepository } from './groups.repository';
 import { Group } from './groups.entity';
 
 @Module({
-  controllers: [GroupsController],
-  providers: [GroupsService, GroupsRepository],
-  imports: [TypeOrmModule.forFeature([Group]), UsersModule, AuthModule],
-  exports: [GroupsService, GroupsRepository],
+    controllers: [GroupsController],
+    providers: [GroupsService, GroupsRepository],
+    imports: [TypeOrmModule.forFeature([Group]), UsersModule, AuthModule],
+    exports: [GroupsService, GroupsRepository],
 })
 export class GroupsModule {}

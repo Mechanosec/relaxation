@@ -1,4 +1,4 @@
 export default interface IRoleResponse {
-  id: number;
-  role: string;
+    id: number;
+    role: string;
 }

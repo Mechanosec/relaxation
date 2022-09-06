@@ -9,27 +9,24 @@ import { RolesRepository } from './roles.repository';
 @ApiTags('Roles')
 @Controller('roles')
 export class RolesController {
-  constructor(
-    private roleService: RolesService,
-    private roleRepository: RolesRepository,
-  ) {}
+    constructor(private roleService: RolesService, private roleRepository: RolesRepository) {}
 
-  @ApiOperation({ summary: 'Получение списка' })
-  @ApiResponse({ status: 200, type: [Role] })
-  @Get()
-  async getAll() {
-    try {
-      const roles = await this.roleRepository.findList();
-      return new RoleResponse().items(roles);
-    } catch (err) {
-      return err;
+    @ApiOperation({ summary: 'Получение списка' })
+    @ApiResponse({ status: 200, type: [Role] })
+    @Get()
+    async getAll() {
+        try {
+            const roles = await this.roleRepository.findList();
+            return new RoleResponse().items(roles);
+        } catch (err) {
+            return err;
+        }
     }
-  }
 
-  @ApiOperation({ summary: 'Создание' })
-  @ApiResponse({ status: 200, type: Role })
-  @Post()
-  create(@Body() roleDto: CreateRoleDto) {
-    return this.roleService.create(roleDto);
-  }
+    @ApiOperation({ summary: 'Создание' })
+    @ApiResponse({ status: 200, type: Role })
+    @Post()
+    create(@Body() roleDto: CreateRoleDto) {
+        return this.roleService.create(roleDto);
+    }
 }

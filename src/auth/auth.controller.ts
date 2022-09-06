@@ -3,24 +3,26 @@ import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CreateUserDto } from '../users/DTO/create-user.dto';
 import { AuthService } from './auth.service';
 import { LoginUserDto } from '../users/DTO/login-user.dto';
-import { TokenResponse } from './responseTransformer/token.response';
+import TokenResponse from './responseTransformer/token.response';
 
-@ApiTags('Авторизация')
+@ApiTags('Authorization')
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService) {}
+    constructor(private authService: AuthService) {}
 
-  @ApiOperation({ summary: 'Авторизация пользователя' })
-  @Post('login')
-  async login(@Body() loginUserDto: LoginUserDto) {
-    return new TokenResponse().item(await this.authService.login(loginUserDto));
-  }
+    @ApiOperation({ summary: 'Sing-in' })
+    @Post('sing-in')
+    async login(@Body() loginUserDto: LoginUserDto) {
+        const token = await this.authService.singIn(loginUserDto);
 
-  @ApiOperation({ summary: 'Регистрация пользователя' })
-  @Post('singUp')
-  async singUp(@Body() createUserDto: CreateUserDto) {
-    return new TokenResponse().item(
-      await this.authService.singUp(createUserDto),
-    );
-  }
+        return new TokenResponse(token);
+    }
+
+    @ApiOperation({ summary: 'Sing-up' })
+    @Post('sing-up')
+    async singUp(@Body() createUserDto: CreateUserDto) {
+        const token = await this.authService.singUp(createUserDto);
+
+        return new TokenResponse(token);
+    }
 }
