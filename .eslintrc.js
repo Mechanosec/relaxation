@@ -21,10 +21,6 @@ module.exports = {
         //   "warning",
         //   "always"
         // ],
-        // "@typescript-eslint/quotes": [
-        //   "error",
-        //   "double"
-        // ],
         // "quotes": [
         //   "error",
         //   "double"

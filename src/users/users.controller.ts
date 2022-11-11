@@ -1,12 +1,12 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateUserDto } from './DTO/create-user.dto';
 import { User } from './users.entity';
 import { UsersService } from './users.service';
-import { JwtAuthGuard } from '../guards/jwt-auth.guard';
 import UserResponse from './responseTransformer/user.response';
 import { UsersRepository } from './users.repository';
 import { UpdateUserDto } from './DTO/update-user.dto';
+import { JwtAuthGuard } from '../auth/guards/jwt.guard';
 
 @ApiTags('Users')
 @UseGuards(JwtAuthGuard)
@@ -20,6 +20,11 @@ export class UsersController {
     async get(@Param('guid') guid: string) {
         try {
             const user = await this.userRepository.setRelations(['roles']).findByGuid(guid);
+
+            if (!user) {
+                throw new BadRequestException('User not found');
+            }
+
             return new UserResponse().item(user);
         } catch (error) {
             return error;
